@@ -28,13 +28,12 @@ jobs:
         run: |
           # 如果没有 gradle-wrapper.jar，用 gradle 生成
           if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
-            # 安装 gradle 然后生成 wrapper
             which gradle 2>/dev/null || (
-              curl -sSL https://services.gradle.org/distributions/gradle-8.6-bin.zip -o /tmp/gradle.zip
+              curl -sSL https://services.gradle.org/distributions/gradle-8.7-bin.zip -o /tmp/gradle.zip
               unzip -q /tmp/gradle.zip -d /opt
-              export PATH=/opt/gradle-8.6/bin:$PATH
+              export PATH=/opt/gradle-8.7/bin:$PATH
             )
-            gradle wrapper --gradle-version 8.6
+            gradle wrapper --gradle-version 8.7
           fi
 
       - name: 下载并配置 libraw
