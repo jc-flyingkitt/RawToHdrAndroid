@@ -39,12 +39,14 @@ jobs:
       - name: 下载并配置 libraw
         run: |
           cd app/src/main/cpp/libraw
-          git clone --depth 1 https://github.com/LibRaw/LibRaw.git libraw-src
+          # 下载 libraw 0.21.3 稳定版（保证目录结构一致）
+          curl -sSL https://github.com/LibRaw/LibRaw/archive/refs/tags/0.21.3.tar.gz -o libraw.tar.gz
+          tar xzf libraw.tar.gz
           mkdir -p src/libraw
-          # 将 libraw 源码复制到 CMakeLists.txt 期望的位置
-          cp -r libraw-src/src/* src/libraw/ 2>/dev/null || true
-          cp -r libraw-src/libraw/* include/libraw/ 2>/dev/null || true
-          rm -rf libraw-src
+          # 源码文件在 LibRaw-0.21.3/src/ 下
+          cp -r LibRaw-0.21.3/src/* src/libraw/
+          cp -r LibRaw-0.21.3/libraw/* include/libraw/
+          rm -rf LibRaw-0.21.3 libraw.tar.gz
 
       - name: 接受 Android SDK 许可证
         run: |
