@@ -8,4 +8,5 @@
     <color name="color_error">#B00020</color>
     <color name="color_success">#00C853</color>
     <color name="color_warning">#FFD600</color>
+    <color name="ic_launcher_background">#1565C0</color>
 </resources>
