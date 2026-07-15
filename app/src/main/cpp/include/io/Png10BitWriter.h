@@ -41,6 +41,10 @@ private:
      * 将 float RGB 转换为 10bit 数据 (12 bytes per pixel)
      */
     void convertTo10bit(const float* src, unsigned short* dst, size_t count);
+
+    bool writeIhdrChunk(int fd, size_t width, size_t height);
+    bool writeCompressedRows(int fd, unsigned short* data, size_t width, size_t height);
+    bool writeIendChunk(int fd);
 };
 
 #endif // PNG_10BIT_WRITER_H

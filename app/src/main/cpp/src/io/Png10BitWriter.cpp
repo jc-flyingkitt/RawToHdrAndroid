@@ -253,7 +253,7 @@ bool Png10BitWriter::writeIendChunk(int fd) {
     if (::write(fd, lengthBytes, 4) != 4) return false;
 
     const char* type = "IEND";
-    if (write(fd, type, 4) != 4) return false;
+    if (::write(fd, type, 4) != 4) return false;
 
     // CRC of "IEND"
     uLong crc = crc32(0L, Z_NULL, 0);
