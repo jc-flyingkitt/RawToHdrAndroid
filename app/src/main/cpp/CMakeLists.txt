@@ -37,15 +37,9 @@ add_library(hdr-engine SHARED
 # libraw 源代码目录
 set(LIBRAW_SRC_DIR ${CMAKE_SOURCE_DIR}/libraw/src/libraw)
 
-file(GLOB LIBRAW_SOURCES
-    ${LIBRAW_SRC_DIR}/libraw_c_api.cpp
-    ${LIBRAW_SRC_DIR}/libraw_ip.cpp
-    ${LIBRAW_SRC_DIR}/dcraw_common.cpp
-    ${LIBRAW_SRC_DIR}/dcraw_dcraw.cpp
-    ${LIBRAW_SRC_DIR}/dcraw_fast.cpp
-    ${LIBRAW_SRC_DIR}/lut_gamma.cpp
-    ${LIBRAW_SRC_DIR}/lut_rgb_curve.cpp
-    ${LIBRAW_SRC_DIR}/memstream.cpp
+# 递归搜索所有子目录中的 .cpp 文件（libraw 0.21.3 有 decoders/ demosaic/ metadata/ 等子目录）
+file(GLOB_RECURSE LIBRAW_SOURCES
+    ${LIBRAW_SRC_DIR}/*.cpp
 )
 
 add_library(libraw-static STATIC ${LIBRAW_SOURCES})
