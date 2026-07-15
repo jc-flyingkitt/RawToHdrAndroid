@@ -43,9 +43,11 @@ jobs:
           curl -sSL https://github.com/LibRaw/LibRaw/archive/refs/tags/0.21.3.tar.gz -o libraw.tar.gz
           tar xzf libraw.tar.gz
           mkdir -p src/libraw
-          # 源码文件在 LibRaw-0.21.3/src/ 下
+          # 源码文件在 LibRaw-0.21.3/src/ 下（含 decoders/ demosaic/ metadata/ 等子目录）
           cp -r LibRaw-0.21.3/src/* src/libraw/
           cp -r LibRaw-0.21.3/libraw/* include/libraw/
+          # 复制 internal/ 头文件（被 src/ 下代码以 ../../internal/ 引用，需放在 libraw/ 根目录）
+          cp -r LibRaw-0.21.3/internal ./
           rm -rf LibRaw-0.21.3 libraw.tar.gz
 
       - name: 接受 Android SDK 许可证
