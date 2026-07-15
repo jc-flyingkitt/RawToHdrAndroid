@@ -13,6 +13,10 @@
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
+// 前向声明辅助函数
+static inline int avg4(uint16_t* rawPtr, int width, int x, int y, int center);
+static inline int avg9(uint16_t* rawPtr, int width, int height, int x, int y);
+
 RawDecoder::RawDecoder() {
     LOGD("RawDecoder constructed");
 }
@@ -128,17 +132,17 @@ DecodeResult RawDecoder::decode(const char* filePath) {
                 if (pos == 0) { // R
                     r = rawVal / 4095.0f;
                     g = avg4(rawPtr, width, x, y, rawVal) / 4095.0f;
-                    b = avg9(rawPtr, width, x, y) / 4095.0f;
+                    b = avg9(rawPtr, width, height, x, y) / 4095.0f;
                 } else if (pos == 1) { // G
                     r = avg4(rawPtr, width, x, y, rawVal) / 4095.0f;
                     g = rawVal / 4095.0f;
-                    b = avg9(rawPtr, width, x, y) / 4095.0f;
+                    b = avg9(rawPtr, width, height, x, y) / 4095.0f;
                 } else if (pos == 2) { // G
                     r = avg4(rawPtr, width, x, y, rawVal) / 4095.0f;
                     g = rawVal / 4095.0f;
-                    b = avg9(rawPtr, width, x, y) / 4095.0f;
+                    b = avg9(rawPtr, width, height, x, y) / 4095.0f;
                 } else { // B
-                    r = avg9(rawPtr, width, x, y) / 4095.0f;
+                    r = avg9(rawPtr, width, height, x, y) / 4095.0f;
                     g = avg4(rawPtr, width, x, y, rawVal) / 4095.0f;
                     b = rawVal / 4095.0f;
                 }
@@ -146,17 +150,17 @@ DecodeResult RawDecoder::decode(const char* filePath) {
                 if (pos == 0) { // B
                     b = rawVal / 4095.0f;
                     g = avg4(rawPtr, width, x, y, rawVal) / 4095.0f;
-                    r = avg9(rawPtr, width, x, y) / 4095.0f;
+                    r = avg9(rawPtr, width, height, x, y) / 4095.0f;
                 } else if (pos == 1) { // G
                     b = avg4(rawPtr, width, x, y, rawVal) / 4095.0f;
                     g = rawVal / 4095.0f;
-                    r = avg9(rawPtr, width, x, y) / 4095.0f;
+                    r = avg9(rawPtr, width, height, x, y) / 4095.0f;
                 } else if (pos == 2) { // G
                     b = avg4(rawPtr, width, x, y, rawVal) / 4095.0f;
                     g = rawVal / 4095.0f;
-                    r = avg9(rawPtr, width, x, y) / 4095.0f;
+                    r = avg9(rawPtr, width, height, x, y) / 4095.0f;
                 } else { // R
-                    b = avg9(rawPtr, width, x, y) / 4095.0f;
+                    b = avg9(rawPtr, width, height, x, y) / 4095.0f;
                     g = avg4(rawPtr, width, x, y, rawVal) / 4095.0f;
                     r = rawVal / 4095.0f;
                 }
@@ -191,14 +195,14 @@ static inline int avg4(uint16_t* rawPtr, int width, int x, int y, int center) {
 }
 
 // 辅助函数: 9 点平均
-static inline int avg9(uint16_t* rawPtr, int width, int x, int y) {
+static inline int avg9(uint16_t* rawPtr, int width, int height, int x, int y) {
     int sum = 0;
     int count = 0;
     for (int dy = -1; dy <= 1; dy++) {
         for (int dx = -1; dx <= 1; dx++) {
             int nx = x + dx;
             int ny = y + dy;
-            if (nx >= 0 && nx < width && ny >= 0 && ny < width) {
+            if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
                 sum += rawPtr[ny * width + nx];
                 count++;
             }

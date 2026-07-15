@@ -48,7 +48,7 @@ ConversionResult Png10BitWriter::write(
     }
 
     // 写入 PNG 魔数
-    if (write(fd, PNG_SIG, 8) != 8) {
+    if (::write(fd, PNG_SIG, 8) != 8) {
         close(fd);
         return ConversionResult::fail("Failed to write PNG signature");
     }
@@ -124,21 +124,21 @@ bool Png10BitWriter::writeIhdrChunk(int fd, size_t width, size_t height) {
     ihdr[7] = height & 0xFF;
 
     // 写入 chunk: length, type, data, CRC
-    unsigned int length = 13;
+    uint32_t length = 13;
     unsigned char lengthBytes[4];
     lengthBytes[0] = (length >> 24) & 0xFF;
     lengthBytes[1] = (length >> 16) & 0xFF;
     lengthBytes[2] = (length >> 8) & 0xFF;
     lengthBytes[3] = length & 0xFF;
 
-    if (write(fd, lengthBytes, 4) != 4) return false;
+    if (::write(fd, lengthBytes, 4) != 4) return false;
 
     // Chunk type "IHDR"
     const char* type = "IHDR";
-    if (write(fd, type, 4) != 4) return false;
+    if (::write(fd, type, 4) != 4) return false;
 
     // Chunk data
-    if (write(fd, ihdr, 13) != 13) return false;
+    if (::write(fd, ihdr, 13) != 13) return false;
 
     // CRC (简化: 实际项目应该计算正确 CRC)
     // 这里写入一个占位 CRC (实际使用时需要 zlib 计算)
@@ -152,7 +152,7 @@ bool Png10BitWriter::writeIhdrChunk(int fd, size_t width, size_t height) {
     crcBytes[2] = (crc >> 8) & 0xFF;
     crcBytes[3] = crc & 0xFF;
 
-    if (write(fd, crcBytes, 4) != 4) return false;
+    if (::write(fd, crcBytes, 4) != 4) return false;
 
     LOGD("IHDR chunk written: %zu x %zu", width, height);
     return true;
@@ -207,7 +207,7 @@ bool Png10BitWriter::writeCompressedRows(
             }
 
             size_t outLen = 65536 - strm.avail_out;
-            if (write(fd, compressed, outLen) != (ssize_t)outLen) {
+            if (::write(fd, compressed, outLen) != (ssize_t)outLen) {
                 deflateEnd(&strm);
                 delete[] rowData;
                 delete[] compressed;
@@ -230,7 +230,7 @@ bool Png10BitWriter::writeCompressedRows(
         }
 
         size_t outLen = 65536 - strm.avail_out;
-        if (write(fd, compressed, outLen) != (ssize_t)outLen) {
+        if (::write(fd, compressed, outLen) != (ssize_t)outLen) {
             deflateEnd(&strm);
             delete[] rowData;
             delete[] compressed;
@@ -248,9 +248,9 @@ bool Png10BitWriter::writeCompressedRows(
 
 bool Png10BitWriter::writeIendChunk(int fd) {
     // IEND chunk: 0 length, "IEND", CRC
-    unsigned int length = 0;
+    uint32_t length = 0;
     unsigned char lengthBytes[4] = {0, 0, 0, 0};
-    if (write(fd, lengthBytes, 4) != 4) return false;
+    if (::write(fd, lengthBytes, 4) != 4) return false;
 
     const char* type = "IEND";
     if (write(fd, type, 4) != 4) return false;
@@ -265,7 +265,7 @@ bool Png10BitWriter::writeIendChunk(int fd) {
     crcBytes[2] = (crc >> 8) & 0xFF;
     crcBytes[3] = crc & 0xFF;
 
-    if (write(fd, crcBytes, 4) != 4) return false;
+    if (::write(fd, crcBytes, 4) != 4) return false;
 
     LOGD("IEND chunk written");
     return true;

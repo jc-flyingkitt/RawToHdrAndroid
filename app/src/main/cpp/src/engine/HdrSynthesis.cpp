@@ -42,7 +42,8 @@ ConversionResult HdrSynthesis::synthesize(
         return ConversionResult::fail("Merge failed");
     }
 
-    return ConversionResult::success("");
+    LOGD("HDR synthesis completed: %zu x %zu", width, height);
+    return ConversionResult::success(std::move(merged));
 }
 
 ConversionResult HdrSynthesis::singleToHdr(
@@ -54,7 +55,7 @@ ConversionResult HdrSynthesis::singleToHdr(
 
     LOGD("Single to HDR: %zu x %zu", image->width, image->height);
     // 单张转换: 直接返回线性数据
-    return ConversionResult::success("");
+    return ConversionResult::success(image);
 }
 
 void HdrSynthesis::estimateResponseCurve(

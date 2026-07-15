@@ -87,9 +87,9 @@ BracketResult HdrEngine::bracketedConvert(
     LOGD("Writing HDR file: %s", outputPathHdr);
     HdrWriter hdrWriter;
     auto hdrWriteResult = hdrWriter.write(
-        synthesisResult.image->data->ptr,
-        synthesisResult.image->data->width,
-        synthesisResult.image->data->height,
+        synthesisResult.image->ptr,
+        synthesisResult.image->width,
+        synthesisResult.image->height,
         outputPathHdr
     );
 
@@ -102,9 +102,9 @@ BracketResult HdrEngine::bracketedConvert(
     LOGD("Writing 10bit PNG file: %s", outputPathPng10);
     Png10BitWriter pngWriter;
     auto pngWriteResult = pngWriter.write(
-        synthesisResult.image->data->ptr,
-        synthesisResult.image->data->width,
-        synthesisResult.image->data->height,
+        synthesisResult.image->ptr,
+        synthesisResult.image->width,
+        synthesisResult.image->height,
         outputPathPng10
     );
 
@@ -136,17 +136,17 @@ ConversionResult HdrEngine::singleConvert(
     if (format == OutputFormat::HDR) {
         HdrWriter writer;
         return writer.write(
-            decodeResult.image->data->ptr,
-            decodeResult.image->data->width,
-            decodeResult.image->data->height,
+            decodeResult.image->ptr,
+            decodeResult.image->width,
+            decodeResult.image->height,
             outputPath
         );
     } else {
         Png10BitWriter writer;
         return writer.write(
-            decodeResult.image->data->ptr,
-            decodeResult.image->data->width,
-            decodeResult.image->data->height,
+            decodeResult.image->ptr,
+            decodeResult.image->width,
+            decodeResult.image->height,
             outputPath
         );
     }

@@ -65,14 +65,14 @@ Java_com_rawtohdr_rawtohdr_converter_NativeHdrEngine_convertSingleRaw(
     if (fmt == OutputFormat::HDR) {
         // 将 RAW 的 linear RGB 数据直接写入 HDR 文件 (无损)
         HdrWriter writer;
-        convResult = writer.write(result.image->data->ptr,
+        convResult = writer.write(result.image->ptr,
                                   result.image->width,
                                   result.image->height,
                                   outputPathStr);
     } else {
         // 写入 10bit PNG
         Png10BitWriter pngWriter;
-        convResult = pngWriter.write(result.image->data->ptr,
+        convResult = pngWriter.write(result.image->ptr,
                                      result.image->width,
                                      result.image->height,
                                      outputPathStr);

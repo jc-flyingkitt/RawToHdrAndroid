@@ -63,20 +63,20 @@ bool HdrWriter::writeHeader(int fd, size_t width, size_t height) {
 
     // 检查是否需要写 "#?RADIANCE"
     const char* signature = "#?RADIANCE\n";
-    if (write(fd, signature, strlen(signature)) != (ssize_t)strlen(signature)) {
+    if (::write(fd, signature, strlen(signature)) != (ssize_t)strlen(signature)) {
         return false;
     }
 
     // 写入尺寸信息
     len = snprintf(header, sizeof(header), "-W %zu\n", width);
-    if (write(fd, header, len) != len) return false;
+    if (::write(fd, header, len) != len) return false;
 
     len = snprintf(header, sizeof(header), "+H %zu\n", height);
-    if (write(fd, header, len) != len) return false;
+    if (::write(fd, header, len) != len) return false;
 
     // 写入格式信息
     len = snprintf(header, sizeof(header), "FORMAT=32-bit_rle_rgbe\n");
-    if (write(fd, header, len) != len) return false;
+    if (::write(fd, header, len) != len) return false;
 
     LOGD("HDR header written: %zu x %zu", width, height);
     return true;
@@ -96,7 +96,7 @@ bool HdrWriter::writePixels(int fd, const float* data, size_t width, size_t heig
         // RGBE: R, G, B, E (4 bytes per pixel)
         // 其中 E 是共享指数，R=G=B=E 时压缩率最高
 
-        unsigned char* rgbeRow = new unsigned char[width * 4];
+        unsigned char* rgbeRow = new unsigned char[width * 4]();
 
         for (size_t x = 0; x < width; x++) {
             size_t idx = y * width * 3 + x * 3;
@@ -122,9 +122,9 @@ bool HdrWriter::writePixels(int fd, const float* data, size_t width, size_t heig
                 unsigned char gg = static_cast<unsigned char>(g * scale * 255.0f);
                 unsigned char bb = static_cast<unsigned char>(b * scale * 255.0f);
 
-                rgbeRow[x * 4 + 0] = std::min(255U, rr);
-                rgbeRow[x * 4 + 1] = std::min(255U, gg);
-                rgbeRow[x * 4 + 2] = std::min(255U, bb);
+                rgbeRow[x * 4 + 0] = std::min(static_cast<unsigned char>(255), rr);
+                rgbeRow[x * 4 + 1] = std::min(static_cast<unsigned char>(255), gg);
+                rgbeRow[x * 4 + 2] = std::min(static_cast<unsigned char>(255), bb);
                 rgbeRow[x * 4 + 3] = static_cast<unsigned char>(exponent);
             }
         }
@@ -143,17 +143,17 @@ bool HdrWriter::writePixels(int fd, const float* data, size_t width, size_t heig
             if (run > 2) {
                 // RLE 编码: 0xFF, run+128, value
                 unsigned char rleHeader[3] = {0xFF, static_cast<unsigned char>(run + 128), val};
-                ssize_t w = write(fd, rleHeader, 3);
+                ssize_t w = ::write(fd, rleHeader, 3);
                 if (w != 3) { delete[] rgbeRow; return false; }
                 bytesWritten += 3;
                 i += run - 1;
             } else {
                 // 非压缩: 0x00, count, data
                 unsigned char count = 1;
-                ssize_t w = write(fd, &count, 1);
+                ssize_t w = ::write(fd, &count, 1);
                 if (w != 1) { delete[] rgbeRow; return false; }
                 bytesWritten++;
-                w = write(fd, &val, 1);
+                w = ::write(fd, &val, 1);
                 if (w != 1) { delete[] rgbeRow; return false; }
                 bytesWritten++;
             }

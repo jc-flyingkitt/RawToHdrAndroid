@@ -9,6 +9,7 @@
 
 #define LOG_TAG "ImageAligner"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
 void ImageAligner::setMaxFeatures(int count) {
     maxFeatures_ = std::max(100, std::min(2000, count));

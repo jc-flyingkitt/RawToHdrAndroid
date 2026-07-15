@@ -82,12 +82,16 @@ struct ConversionResult {
     bool ok;
     std::string outputPath;
     std::string error;
+    std::shared_ptr<ImageData> image; // HDR 合成后的图像数据
 
     static ConversionResult success(const std::string& path) {
-        return {true, path, ""};
+        return {true, path, "", nullptr};
+    }
+    static ConversionResult success(std::shared_ptr<ImageData> img) {
+        return {true, "", "", std::move(img)};
     }
     static ConversionResult fail(const std::string& err) {
-        return {false, "", err};
+        return {false, "", err, nullptr};
     }
 };
 
