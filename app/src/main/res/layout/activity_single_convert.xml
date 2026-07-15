@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/color_surface">
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/single_title"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/color_primary"
+        android:layout_marginBottom="16dp" />
+
+    <!-- 选择文件按钮 -->
+    <Button
+        android:id="@+id/btnPickFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/single_pick_file"
+        android:textSize="16sp"
+        android:backgroundTint="@color/color_accent"
+        android:textColor="@android:color/white" />
+
+    <!-- 已选文件路径显示 -->
+    <TextView
+        android:id="@+id/tvFilePath"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="12dp"
+        android:textSize="12sp"
+        android:textColor="#555555"
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        android:visibility="gone"
+        android:ellipsize="start"
+        android:maxLines="2"
+        android:singleLine="false" />
+
+    <!-- 输出格式选择 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/single_output"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#333333" />
+
+    <CheckBox
+        android:id="@+id/cbOutputHdr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/single_output_hdr"
+        android:checked="true" />
+
+    <CheckBox
+        android:id="@+id/cbOutputPng10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/single_output_png10"
+        android:checked="true"
+        android:layout_marginBottom="24dp" />
+
+    <!-- 转换按钮 -->
+    <Button
+        android:id="@+id/btnConvert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/single_btn_convert"
+        android:textSize="18sp"
+        android:backgroundTint="@color/color_primary"
+        android:textColor="@android:color/white"
+        android:padding="16dp" />
+
+    <!-- 进度条 -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
+
+    <!-- 结果提示 -->
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:visibility="gone" />
+
+</LinearLayout>

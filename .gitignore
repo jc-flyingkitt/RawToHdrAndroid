@@ -1,0 +1,30 @@
+# Gradle
+.gradle/
+build/
+app/build/
+local.properties
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Native
+*.o
+*.so
+*.a
+*.dylib
+
+# libraw source (downloaded by CI)
+app/src/main/cpp/libraw/src/libraw/
+
+# Misc
+*.log
+*.tmp
+*.stackdump

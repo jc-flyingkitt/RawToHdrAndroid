@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/color_surface">
+
+    <!-- 标题栏 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bracket_title"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/color_primary"
+        android:layout_marginBottom="16dp" />
+
+    <!-- 添加文件按钮 -->
+    <Button
+        android:id="@+id/btnAddFiles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bracket_add_files"
+        android:textSize="16sp"
+        android:backgroundTint="@color/color_accent"
+        android:textColor="@android:color/white" />
+
+    <!-- 文件列表 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bracket_files_list"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#333333" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFiles"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="vertical"
+        android:background="@android:color/white"
+        android:elevation="2dp" />
+
+    <!-- 设置选项 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bracket_settings"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:textColor="#333333" />
+
+    <Switch
+        android:id="@+id/switchAlign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bracket_align"
+        android:checked="true"
+        android:layout_marginBottom="8dp" />
+
+    <Switch
+        android:id="@+id/switchToneMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bracket_tone_map"
+        android:checked="false"
+        android:layout_marginBottom="16dp" />
+
+    <!-- 输出格式 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bracket_output_formats"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:textColor="#333333" />
+
+    <CheckBox
+        android:id="@+id/cbOutputHdr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="HDR (.hdr) 标准格式"
+        android:checked="true" />
+
+    <CheckBox
+        android:id="@+id/cbOutputPng10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PNG 10bit 高色深"
+        android:checked="true"
+        android:layout_marginBottom="24dp" />
+
+    <!-- 合成按钮 -->
+    <Button
+        android:id="@+id/btnMerge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bracket_btn_merge"
+        android:textSize="18sp"
+        android:backgroundTint="@color/color_primary"
+        android:textColor="@android:color/white"
+        android:padding="16dp" />
+
+    <!-- 进度条 -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
+
+</LinearLayout>

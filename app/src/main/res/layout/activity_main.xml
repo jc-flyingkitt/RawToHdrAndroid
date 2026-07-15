@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="@color/color_surface">
+
+    <!-- Logo / Title -->
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/app_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_title"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/color_primary"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_subtitle"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:layout_marginTop="8dp"
+        android:gravity="center" />
+
+    <!-- 功能按钮 -->
+    <Button
+        android:id="@+id/btnSingleConvert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_single_convert"
+        android:textSize="18sp"
+        android:layout_marginTop="48dp"
+        android:padding="16dp"
+        android:backgroundTint="@color/color_primary"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btnBracketConvert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_bracket_convert"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:backgroundTint="@color/color_accent"
+        android:textColor="@android:color/white" />
+
+    <!-- 格式说明 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/white"
+        android:padding="16dp"
+        android:elevation="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支持格式"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="输入: CR2 / CR3 (佳能 RAW)"
+            android:layout_marginTop="8dp"
+            android:textColor="#555555"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="输出: .hdr (标准 HDR) + .png (10bit)"
+            android:layout_marginTop="4dp"
+            android:textColor="#555555"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="平台: Android 8.0+ (arm64-v8a)"
+            android:layout_marginTop="4dp"
+            android:textColor="#555555"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>

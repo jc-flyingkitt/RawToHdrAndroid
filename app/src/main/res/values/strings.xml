@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RawToHdr</string>
+
+    <!-- 主界面 -->
+    <string name="welcome_title">Canon RAW 转 HDR</string>
+    <string name="welcome_subtitle">无损转换 CR2/CR3 → Ultra HDR (.hdr) + 10bit PNG</string>
+    <string name="btn_single_convert">单张 RAW 转 HDR</string>
+    <string name="btn_bracket_convert">包围曝光合成 HDR</string>
+
+    <!-- 单张转换 -->
+    <string name="single_title">单张 RAW 转 HDR</string>
+    <string name="single_pick_file">选择 CR2/CR3 文件</string>
+    <string name="single_output">输出格式</string>
+    <string name="single_output_hdr">HDR (.hdr) 标准格式</string>
+    <string name="single_output_png10">PNG 10bit 高色深</string>
+    <string name="single_btn_convert">开始转换</string>
+    <string name="single_progress">转换中...</string>
+    <string name="single_success">转换成功</string>
+    <string name="single_error">转换失败</string>
+
+    <!-- 包围曝光合成 -->
+    <string name="bracket_title">包围曝光合成 HDR</string>
+    <string name="bracket_add_files">添加 CR2/CR3 文件 (推荐 3-5 张)</string>
+    <string name="bracket_files_list">已选择文件</string>
+    <string name="bracket_remove">移除</string>
+    <string name="bracket_settings">设置</string>
+    <string name="bracket_align">对齐图像</string>
+    <string name="bracket_tone_map">色调映射</string>
+    <string name="bracket_output_formats">输出格式</string>
+    <string name="bracket_btn_merge">开始合成</string>
+    <string name="bracket_progress">合成中...</string>
+    <string name="bracket_success">合成成功</string>
+    <string name="bracket_error">合成失败</string>
+
+    <!-- 通用 -->
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="save_to">保存到</string>
+    <string name="file_not_supported">不支持的文件格式</string>
+    <string name="need_3_or_more">至少需要 3 张不同曝光的 RAW 文件</string>
+    <string name="permission_required">需要存储权限才能访问文件</string>
+    <string name="storage_permission">存储权限</string>
+    <string name="storage_permission_desc">本应用需要访问存储来读取和保存图片文件</string>
+</resources>

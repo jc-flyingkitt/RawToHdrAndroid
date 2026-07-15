@@ -1,0 +1,109 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:       # 手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: 设置 Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: 生成 Gradle Wrapper
+        run: |
+          # 如果没有 gradle-wrapper.jar，用 gradle 生成
+          if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
+            # 安装 gradle 然后生成 wrapper
+            which gradle 2>/dev/null || (
+              curl -sSL https://services.gradle.org/distributions/gradle-8.6-bin.zip -o /tmp/gradle.zip
+              unzip -q /tmp/gradle.zip -d /opt
+              export PATH=/opt/gradle-8.6/bin:$PATH
+            )
+            gradle wrapper --gradle-version 8.6
+          fi
+
+      - name: 下载并配置 libraw
+        run: |
+          cd app/src/main/cpp/libraw
+          git clone --depth 1 https://github.com/LibRaw/LibRaw.git libraw-src
+          mkdir -p src/libraw
+          # 将 libraw 源码复制到 CMakeLists.txt 期望的位置
+          cp -r libraw-src/src/* src/libraw/ 2>/dev/null || true
+          cp -r libraw-src/libraw/* include/libraw/ 2>/dev/null || true
+          rm -rf libraw-src
+
+      - name: 接受 Android SDK 许可证
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
+
+      - name: 安装所需 SDK 组件
+        run: |
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-35" \
+            "build-tools;35.0.0" \
+            "ndk;27.0.12077973" \
+            "cmake;3.22.1" \
+            --sdk_root=$ANDROID_HOME 2>/dev/null || true
+
+      - name: 设置 NDK 环境变量
+        run: |
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.0.12077973" >> $GITHUB_ENV
+
+      - name: 赋予 gradlew 执行权限
+        run: chmod +x gradlew
+
+      - name: 构建 Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: 上传 APK 作为构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: RawToHdr-Debug-APK
+          path: app/build/outputs/apk/debug/*.apk
+
+  release:
+    needs: build
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 下载构建产物
+        uses: actions/download-artifact@v4
+        with:
+          name: RawToHdr-Debug-APK
+          path: apk
+
+      - name: 创建 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: "RawToHdr v1.0.${{ github.run_number }}"
+          body: |
+            ## RawToHdr Android
+            
+            ### 功能
+            - 佳能 CR2/CR3 RAW 转 HDR (.hdr) + 10bit PNG
+            - 单张转换 / 包围曝光合成
+            - 支持 Android 8.0+ (API 26+)
+            - 适配 arm64-v8a / armeabi-v7a
+            
+            ### 下载
+            APK 文件在下方 Assets 中
+          files: apk/*.apk
