@@ -30,18 +30,11 @@ add_library(hdr-engine SHARED
     src/io/LibRawDecoder.cpp
 )
 
-# 链接库
-target_link_libraries(hdr-engine
-    log
-    z
-)
-
 # ============================================================
 # libraw 库 (静态编译)
 # ============================================================
 
-# libraw 源代码目录 (需用户从 https://github.com/LibRaw/LibRaw 下载)
-# 解压后放在 app/src/main/cpp/libraw/ 目录下
+# libraw 源代码目录
 set(LIBRAW_SRC_DIR ${CMAKE_SOURCE_DIR}/libraw/src/libraw)
 
 file(GLOB LIBRAW_SOURCES
@@ -69,7 +62,12 @@ target_compile_definitions(libraw-static PRIVATE
     -D__STDC_CONSTANT_MACROS
 )
 
-target_link_libraries(hdr-engine libraw-static)
+# 链接库（合并为一次调用，保证链接顺序）
+target_link_libraries(hdr-engine
+    libraw-static
+    log
+    z
+)
 
 # ============================================================
 # 安装规则
